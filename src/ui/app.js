@@ -46,6 +46,13 @@ function renderCharacters(characters) {
         const row = document.createElement("tr");
 
         row.innerHTML = `
+        <td>
+            <img
+                src="${character.image}"
+                alt="${character.name}"
+                class="character-image"
+        >
+        </td>
             <td>${character.id}</td>
             <td>${character.name}</td>
             <td>${character.status}</td>
