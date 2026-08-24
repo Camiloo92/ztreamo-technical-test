@@ -4,14 +4,22 @@
  * de información en la interfaz gráfica.
  */
 
-import { getCharacters } from "../api/rickAndMortyApi.js";
+import {
+    getCharacters,
+    getEpisode
+} from "../api/rickAndMortyApi.js";
 
 const charactersBody = document.querySelector("#characters-body");
 const loading = document.querySelector("#loading");
 const errorContainer = document.querySelector("#error");
+
 const previousPage = document.querySelector("#previous-page");
 const nextPage = document.querySelector("#next-page");
 const pageInfo = document.querySelector("#page-info");
+
+const episodeId = document.querySelector("#episode-id");
+const searchEpisode = document.querySelector("#search-episode");
+const episodeResult = document.querySelector("#episode-result");
 
 let currentPage = 1;
 let totalPages = 1;
@@ -87,6 +95,40 @@ async function loadCharacters(page = 1) {
         loading.classList.add("hidden");
     }
 }
+/**
+ * Obtiene y muestra un episodio específico.
+ *
+ * @function loadEpisode
+ * @memberof Interfaz
+ * @returns {Promise<void>}
+ */
+async function loadEpisode() {
+    try {
+        const id = Number(episodeId.value);
+
+        if (!id) {
+            episodeResult.textContent = "Ingresa un ID de episodio válido.";
+            episodeResult.classList.remove("hidden");
+            return;
+        }
+
+        const episode = await getEpisode(id);
+
+        episodeResult.innerHTML = `
+            <strong>${episode.name}</strong><br>
+            Fecha de emisión: ${episode.air_date}<br>
+            Código: ${episode.episode}
+        `;
+
+        episodeResult.classList.remove("hidden");
+    } catch (error) {
+        console.error(error);
+
+        episodeResult.textContent =
+            "No fue posible encontrar el episodio.";
+        episodeResult.classList.remove("hidden");
+    }
+}
 
 previousPage.addEventListener("click", () => {
     loadCharacters(currentPage - 1);
@@ -95,5 +137,8 @@ previousPage.addEventListener("click", () => {
 nextPage.addEventListener("click", () => {
     loadCharacters(currentPage + 1);
 });
+
+searchEpisode.addEventListener("click", loadEpisode);
+
 
 loadCharacters();
