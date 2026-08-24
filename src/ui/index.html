@@ -60,7 +60,7 @@
             <h2>Buscar episodio</h2>
 
             <div class="episode-search">
-                <input type="number" id="episode-id" min="1" placeholder="ID del episodio">
+                <input type="number" id="episode-id" min="1" placeholder="ID del episodio del 1 al 51">
 
                 <button id="search-episode">
                     Buscar
@@ -68,6 +68,21 @@
             </div>
 
             <div id="episode-result" class="episode-result hidden"></div>
+        </section>
+        <section>
+            <h2>Consultar episodios del 1 al 51</h2>
+
+            <div class="episodes-search">
+                <input type="number" id="episode-one" min="1" placeholder="Episodio 1">
+                <input type="number" id="episode-two" min="1" placeholder="Episodio 2">
+                <input type="number" id="episode-three" min="1" placeholder="Episodio 3">
+
+                <button id="search-episodes">
+                    Consultar
+                </button>
+            </div>
+
+            <div id="episodes-result" class="episodes-result hidden"></div>
         </section>
 
     </main>

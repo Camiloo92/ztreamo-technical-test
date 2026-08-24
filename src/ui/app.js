@@ -6,7 +6,8 @@
 
 import {
     getCharacters,
-    getEpisode
+    getEpisode,
+    getEpisodes
 } from "../api/rickAndMortyApi.js";
 
 const charactersBody = document.querySelector("#characters-body");
@@ -20,6 +21,12 @@ const pageInfo = document.querySelector("#page-info");
 const episodeId = document.querySelector("#episode-id");
 const searchEpisode = document.querySelector("#search-episode");
 const episodeResult = document.querySelector("#episode-result");
+
+const episodeOne = document.querySelector("#episode-one");
+const episodeTwo = document.querySelector("#episode-two");
+const episodeThree = document.querySelector("#episode-three");
+const searchEpisodes = document.querySelector("#search-episodes");
+const episodesResult = document.querySelector("#episodes-result");
 
 let currentPage = 1;
 let totalPages = 1;
@@ -107,7 +114,7 @@ async function loadEpisode() {
         const id = Number(episodeId.value);
 
         if (!id) {
-            episodeResult.textContent = "Ingresa un ID de episodio válido.";
+            episodeResult.textContent = "Ingresa un ID de episodio válido (1 al 51).";
             episodeResult.classList.remove("hidden");
             return;
         }
@@ -130,6 +137,49 @@ async function loadEpisode() {
     }
 }
 
+/**
+ * Obtiene y muestra tres episodios seleccionados.
+ *
+ * @function loadEpisodes
+ * @memberof Interfaz
+ * @returns {Promise<void>}
+ */
+async function loadEpisodes() {
+    try {
+        const ids = [
+            Number(episodeOne.value),
+            Number(episodeTwo.value),
+            Number(episodeThree.value)
+        ];
+
+        if (ids.some((id) => !id)) {
+            episodesResult.textContent =
+                "Ingresa los tres IDs de episodios válidos (1 al 51).";
+            episodesResult.classList.remove("hidden");
+            return;
+        }
+
+        const episodes = await getEpisodes(ids);
+
+        episodesResult.innerHTML = episodes.map((episode) => `
+            <div>
+                <strong>${episode.name}</strong><br>
+                Fecha de emisión: ${episode.air_date}<br>
+                Código: ${episode.episode}
+            </div>
+            <hr>
+        `).join("");
+
+        episodesResult.classList.remove("hidden");
+    } catch (error) {
+        console.error(error);
+
+        episodesResult.textContent =
+            "No fue posible obtener los episodios.";
+        episodesResult.classList.remove("hidden");
+    }
+}
+
 previousPage.addEventListener("click", () => {
     loadCharacters(currentPage - 1);
 });
@@ -139,6 +189,8 @@ nextPage.addEventListener("click", () => {
 });
 
 searchEpisode.addEventListener("click", loadEpisode);
+
+searchEpisodes.addEventListener("click", loadEpisodes);
 
 
 loadCharacters();
