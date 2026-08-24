@@ -32,14 +32,14 @@ async function request(endpoint) {
 }
 
 /**
- * Obtiene la lista de personajes.
+ * Obtiene la lista de personajes según las páginas del API.
  *
  * @function getCharacters
  * @memberof RickAndMortyAPI
  * @returns {Promise<Object>} Respuesta de personajes de la API.
  */
-export async function getCharacters() {
-    return await request("/character");
+export async function getCharacters(page = 1) {
+    return await request(`/character?page=${page}`);
 }
 
 /**

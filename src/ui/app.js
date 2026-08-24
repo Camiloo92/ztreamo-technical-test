@@ -9,6 +9,12 @@ import { getCharacters } from "../api/rickAndMortyApi.js";
 const charactersBody = document.querySelector("#characters-body");
 const loading = document.querySelector("#loading");
 const errorContainer = document.querySelector("#error");
+const previousPage = document.querySelector("#previous-page");
+const nextPage = document.querySelector("#next-page");
+const pageInfo = document.querySelector("#page-info");
+
+let currentPage = 1;
+let totalPages = 1;
 
 /**
  * Renderiza los personajes obtenidos desde la API.
@@ -56,13 +62,21 @@ function showError(message) {
  * @memberof Interfaz
  * @returns {Promise<void>}
  */
-async function loadCharacters() {
+async function loadCharacters(page = 1) {
     try {
         loading.classList.remove("hidden");
 
-        const data = await getCharacters();
+        const data = await getCharacters(page);
+
+        currentPage = page;
+        totalPages = data.info.pages;
 
         renderCharacters(data.results);
+
+        pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+
+        previousPage.disabled = currentPage === 1;
+        nextPage.disabled = currentPage === totalPages;
     } catch (error) {
         console.error(error);
 
@@ -73,5 +87,13 @@ async function loadCharacters() {
         loading.classList.add("hidden");
     }
 }
+
+previousPage.addEventListener("click", () => {
+    loadCharacters(currentPage - 1);
+});
+
+nextPage.addEventListener("click", () => {
+    loadCharacters(currentPage + 1);
+});
 
 loadCharacters();
