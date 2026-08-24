@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rick and Morty API</title>
+
+    <link rel="stylesheet" href="/ui/styles.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="header">
+            <h1>Rick and Morty</h1>
+            <p>Consumo de API REST</p>
+        </header>
+
+        <section>
+            <h2>Personajes</h2>
+
+            <div id="loading" class="loading">
+                Cargando personajes...
+            </div>
+
+            <div id="error" class="error hidden"></div>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Especie</th>
+                            <th>Género</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="characters-body">
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="/ui/app.js"></script>
+</body>
+</html>
