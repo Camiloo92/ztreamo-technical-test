@@ -15,13 +15,20 @@ const BASE_URL = "https://rickandmortyapi.com/api";
  * @throws {Error} Cuando la respuesta HTTP no es exitosa.
  */
 async function request(endpoint) {
-    const response = await fetch(`${BASE_URL}${endpoint}`);
+    try {
+        const response = await fetch(`${BASE_URL}${endpoint}`);
 
-    if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(
+                `Error HTTP ${response.status}: ${response.statusText}`
+            );
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error en la solicitud:", error.message);
+        throw error;
     }
-
-    return await response.json();
 }
 
 /**
