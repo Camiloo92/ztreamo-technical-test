@@ -38,8 +38,16 @@ async function request(endpoint) {
  * @memberof RickAndMortyAPI
  * @returns {Promise<Object>} Respuesta de personajes de la API.
  */
-export async function getCharacters(page = 1) {
-    return await request(`/character?page=${page}`);
+export async function getCharacters(page = 1, name = "") {
+    const query = new URLSearchParams({
+        page: page.toString()
+    });
+
+    if (name) {
+        query.set("name", name);
+    }
+
+    return await request(`/character?${query.toString()}`);
 }
 
 /**

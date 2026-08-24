@@ -203,3 +203,31 @@ button:disabled {
 .hidden {
     display: none;
 }
+
+.character-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.character-search input {
+    width: 420px;
+    max-width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #4b5563;
+    border-radius: 8px;
+    background: #111827;
+    color: #f9fafb;
+    font-size: 15px;
+    outline: none;
+}
+
+.character-search input::placeholder {
+    color: #9ca3af;
+}
+
+.character-search input:focus {
+    border-color: #9ca3af;
+}

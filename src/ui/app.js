@@ -28,6 +28,10 @@ const episodeThree = document.querySelector("#episode-three");
 const searchEpisodes = document.querySelector("#search-episodes");
 const episodesResult = document.querySelector("#episodes-result");
 
+const characterName = document.querySelector("#character-name");
+const searchCharacter = document.querySelector("#search-character");
+
+let currentCharacterName = "";
 let currentPage = 1;
 let totalPages = 1;
 
@@ -88,14 +92,18 @@ async function loadCharacters(page = 1) {
     try {
         loading.classList.remove("hidden");
 
-        const data = await getCharacters(page);
+        const data = await getCharacters(
+            page,
+            currentCharacterName
+        );
 
         currentPage = page;
         totalPages = data.info.pages;
 
         renderCharacters(data.results);
 
-        pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+        pageInfo.textContent =
+            `Página ${currentPage} de ${totalPages}`;
 
         previousPage.disabled = currentPage === 1;
         nextPage.disabled = currentPage === totalPages;
@@ -109,6 +117,7 @@ async function loadCharacters(page = 1) {
         loading.classList.add("hidden");
     }
 }
+
 /**
  * Obtiene y muestra un episodio específico.
  *
@@ -198,6 +207,11 @@ nextPage.addEventListener("click", () => {
 searchEpisode.addEventListener("click", loadEpisode);
 
 searchEpisodes.addEventListener("click", loadEpisodes);
+
+searchCharacter.addEventListener("click", () => {
+    currentCharacterName = characterName.value.trim();
+    loadCharacters(1);
+});
 
 
 loadCharacters();
